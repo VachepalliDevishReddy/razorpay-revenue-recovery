@@ -1,0 +1,5 @@
+google-genai
+razorpay
+streamlit
+pandas
+python-dotenv
