@@ -1,30 +1,38 @@
-# ⚡ Autonomous AI Revenue Recovery Engine
+# ⚡ RecoverAI — Autonomous Revenue Recovery Engine
+> Built for the **Razorpay AI Buildathon 2026** (Track 3: AI Revenue Recovery)
 
-An intelligent payment recovery pipeline built for the **Razorpay AI Buildathon (Track 3: AI Revenue Recovery)**. It autonomously analyzes failed transaction webhooks, categorizes transient vs hard failures using Google Gemini, and generates frictionless Razorpay Payment Links to recover dropped revenue.
-
----
-
-## 🎯 Key Features
-
-* **Intelligent Error Categorization:** Uses Gemini 3.6 Flash structured JSON output to analyze failure metadata.
-* **Automated Dynamic Payment Links:** Automatically generates instant Razorpay checkout links for recoverable transactions.
-* **Fraud & Hard Failure Protection:** Flags expired cards and suspected fraud to avoid spamming customers or creating redundant payment requests.
-* **Interactive Executive Dashboard:** Visualizes recovered revenue, recovery percentages, and per-transaction AI diagnostics.
+RecoverAI is an intelligent payment recovery and orchestration system designed to salvage failed e-commerce transactions without blind, repetitive retries. By analyzing granular failure telemetry using Google Gemini Flash, RecoverAI predicts recovery viability, calculates probability-weighted financial impact, suppresses fraud risks, and dynamically generates actionable Razorpay checkout links.
 
 ---
 
-## 🏗️ Architecture & Data Flow
+## 🚀 Key Architectural Pillars
 
-1. **Ingestion:** Transaction failure payload received (simulated via `mock_data.json`).
-2. **AI Reasoning:** Gemini diagnoses error classification (`RECOVERABLE` vs `UNRECOVERABLE`) and crafts a personalized recovery note.
-3. **Razorpay Action:** For recoverable errors, a Razorpay Payment Link (`short_url`) is generated via the Razorpay Python SDK.
-4. **Presentation:** Real-time Streamlit dashboard calculates business KPIs (Recovered Amount, Recovery Rate %).
+* **Contextual AI Diagnosis:** Evaluates telemetry (`error_code`, `error_description`, payment method, customer history) to differentiate transient gateway drops from hard permanent failures.
+* **Dynamic Orchestration Strategies:**
+  * `SEND_PAYMENT_LINK`: Issues an active Razorpay checkout link for frictionless customer completion.
+  * `RETRY_NOW`: Recommended for instantaneous transient gateway drops.
+  * `RETRY_LATER`: Scheduled retries for temporary bank downtime or insufficient balance states.
+  * `SUPPRESS_FRAUD`: Blocks retries on high-risk errors (`FRAUD_SUSPECTED`, `CARD_EXPIRED`) to protect merchants from chargeback penalties and gateway fees.
+* **Probability-Weighted Financial Modeling:** Computes **Expected Recoverable Value (EV)** ($Amount \times \text{Probability}\%$) alongside gross values for clear merchant impact visibility.
+* **Live Razorpay Integration:** Dynamically generates active payment links via the Razorpay Python SDK (`short_url`).
+* **Settlement Outcome Tracking Loop:** Captures asynchronous payment completion events in real time, converting pending recovery value directly into confirmed merchant revenue.
 
 ---
 
-## 🚀 Quickstart
+## 🛠️ System Architecture
 
-### 1. Clone Repository & Enter Directory
-```bash
-git clone [https://github.com/VachepalliDevishReddy/razorpay-revenue-recovery.git](https://github.com/VachepalliDevishReddy/razorpay-revenue-recovery.git)
-cd razorpay-revenue-recovery
+```text
+       Failed Transaction Webhook Telemetry
+                        ↓
+         Contextual AI Diagnosis (Gemini Flash)
+                        ↓
+         ┌──────────────┴──────────────┐
+         ↓                             ↓
+   🟢 RECOVERABLE                🔴 UNRECOVERABLE / HIGH RISK
+ (Gateway Timeouts, Drops)        (Card Expired, Fraud Suspected)
+         ↓                             ↓
+ EV Calculation & Strategy      Suppress Retries & Protect Merchant
+         ↓
+  Dynamic Razorpay Link
+         ↓
+ Customer Payment Settlement → Real-Time Ledger Update
