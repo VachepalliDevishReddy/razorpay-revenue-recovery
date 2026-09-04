@@ -1,42 +1,82 @@
 [
   {
-    "id": "pay_failed_101",
-    "customer_name": "Rohan Sharma",
-    "email": "rohan.sharma@example.com",
-    "amount": 4500,
-    "payment_method": "UPI",
-    "error_code": "GATEWAY_TIMEOUT",
-    "error_description": "Bank servers took too long to respond.",
-    "attempts": 1
+    "transaction_id": "txn_101",
+    "customer_name": "Aarav Mehta",
+    "customer_email": "aarav@example.com",
+    "amount_inr": 2499,
+    "error_code": "BAD_REQUEST_ERROR",
+    "error_description": "Card 3DS authentication timed out on issuing bank page"
   },
   {
-    "id": "pay_failed_102",
-    "customer_name": "Priya Mehta",
-    "email": "priya.m@example.com",
-    "amount": 8999,
-    "payment_method": "Credit Card",
+    "transaction_id": "txn_102",
+    "customer_name": "Priya Sen",
+    "customer_email": "priya@example.com",
+    "amount_inr": 899,
+    "error_code": "GATEWAY_ERROR",
+    "error_description": "Bank servers unresponsive during payment processing"
+  },
+  {
+    "transaction_id": "txn_103",
+    "customer_name": "Karan Verma",
+    "customer_email": "karan@example.com",
+    "amount_inr": 4999,
     "error_code": "CARD_EXPIRED",
-    "error_description": "Card expiry date has passed.",
-    "attempts": 2
+    "error_description": "The card expiry date has passed"
   },
   {
-    "id": "pay_failed_103",
-    "customer_name": "Vikram Patel",
-    "email": "vikram.p@example.com",
-    "amount": 2499,
-    "payment_method": "Netbanking",
-    "error_code": "NETWORK_TIMEOUT",
-    "error_description": "Connection dropped during 2FA session.",
-    "attempts": 1
+    "transaction_id": "txn_104",
+    "customer_name": "Sneha Reddy",
+    "customer_email": "sneha@example.com",
+    "amount_inr": 1250,
+    "error_code": "PAYMENT_CANCELLED",
+    "error_description": "User cancelled the UPI intent request before entering MPIN"
   },
   {
-    "id": "pay_failed_104",
-    "customer_name": "Ananya Roy",
-    "email": "ananya.roy@example.com",
-    "amount": 14999,
-    "payment_method": "Credit Card",
+    "transaction_id": "txn_105",
+    "customer_name": "Vikram Singh",
+    "customer_email": "vikram@example.com",
+    "amount_inr": 15000,
     "error_code": "FRAUD_SUSPECTED",
-    "error_description": "Multiple card attempts from flagged IP.",
-    "attempts": 3
+    "error_description": "Transaction flagged by risk management filter"
+  },
+  {
+    "transaction_id": "txn_106",
+    "customer_name": "Ananya Iyer",
+    "customer_email": "ananya@example.com",
+    "amount_inr": 3100,
+    "error_code": "INSUFFICIENT_FUNDS",
+    "error_description": "Issuing bank declined transaction due to insufficient funds"
+  },
+  {
+    "transaction_id": "txn_107",
+    "customer_name": "Rahul Nair",
+    "customer_email": "rahul@example.com",
+    "amount_inr": 750,
+    "error_code": "NETWORK_TIMEOUT",
+    "error_description": "Connection timed out while contacting payment gateway switch"
+  },
+  {
+    "transaction_id": "txn_108",
+    "customer_name": "Pooja Gupta",
+    "customer_email": "pooja@example.com",
+    "amount_inr": 9200,
+    "error_code": "INVALID_CVV",
+    "error_description": "Card verification value (CVV) entered was incorrect"
+  },
+  {
+    "transaction_id": "txn_109",
+    "customer_name": "Deepak Joshi",
+    "customer_email": "deepak@example.com",
+    "amount_inr": 1899,
+    "error_code": "OTP_VERIFICATION_FAILED",
+    "error_description": "User entered an incorrect OTP 3 consecutive times"
+  },
+  {
+    "transaction_id": "txn_110",
+    "customer_name": "Neha Kapoor",
+    "customer_email": "neha@example.com",
+    "amount_inr": 550,
+    "error_code": "TRANSACTION_LIMIT_EXCEEDED",
+    "error_description": "Daily UPI transaction count limit exceeded on user bank account"
   }
 ]

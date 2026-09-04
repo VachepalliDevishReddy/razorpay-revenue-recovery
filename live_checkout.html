@@ -1,0 +1,104 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>RecoverAI Dynamic Checkout</title>
+          <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+          <style>
+            * { box-sizing: border-box; }
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #090d16; color: #f8fafc; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; }
+            .card { background: #131b2e; padding: 28px; border-radius: 16px; box-shadow: 0 20px 45px rgba(0,0,0,0.7); max-width: 440px; width: 100%; border: 1px solid #1e293b; }
+            .badge { display: inline-block; background: #064e3b; color: #34d399; padding: 4px 10px; border-radius: 9999px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+            .amount { font-size: 32px; font-weight: 800; color: #38bdf8; margin: 8px 0; }
+            .input-box { width: 100%; background: #0a0f1d; border: 1px solid #334155; border-radius: 8px; padding: 10px 12px; color: #f8fafc; font-size: 14px; margin-top: 6px; }
+            .status-box { margin-top: 14px; padding: 12px; border-radius: 8px; font-size: 13px; line-height: 1.5; display: none; }
+            .btn { background: #2563eb; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 600; font-size: 15px; cursor: pointer; width: 100%; margin-top: 14px; }
+            .btn:hover { background: #1d4ed8; }
+            .btn-pay { background: #059669; display: none; }
+            .btn-pay:hover { background: #047857; }
+            .disclaimer { font-size: 11px; color: #64748b; margin-top: 14px; text-align: center; }
+          </style>
+        </head>
+        <body>
+          <div class="card">
+            <span class="badge">⚡ RecoverAI Dynamic Session</span>
+            <div class="amount">₹2,499.00</div>
+            <p style="color: #94a3b8; font-size: 13px; margin: 0 0 10px 0;">Customer: <b>Aarav Mehta</b> | Action: <b>SEND_CHECKOUT</b></p>
+            
+            <label style="font-size: 12px; color: #94a3b8; text-transform: uppercase; font-weight: 600;">Payment Method</label>
+            <select id="method-selector" class="input-box" onchange="handleMethodChange()">
+              <option value="upi" selected>UPI (Recommended from History)</option>
+              <option value="netbanking" >Netbanking</option>
+              <option value="card" >Card (Alternate)</option>
+            </select>
+
+            <div id="upi-section" style="margin-top: 12px; display: block;">
+              <label style="font-size: 12px; color: #94a3b8;">Customer VPA</label>
+              <input type="text" id="upi-input" class="input-box" value="aarav@okhdfcbank">
+            </div>
+
+            <div id="verify-status" class="status-box"></div>
+
+            <button id="validate-btn" class="btn" onclick="verifyAccount()">🔍 Run Simulated Pre-Flight Check</button>
+            <button id="pay-btn" class="btn btn-pay" onclick="openRazorpay()">💳 Proceed to Razorpay Checkout</button>
+            
+            <div class="disclaimer">Demo Environment: Account verification checks are simulated to demonstrate pre-flight routing.</div>
+          </div>
+
+          <script>
+            function handleMethodChange() {
+              var m = document.getElementById('method-selector').value;
+              document.getElementById('upi-section').style.display = (m === 'upi') ? 'block' : 'none';
+              document.getElementById('verify-status').style.display = 'none';
+              document.getElementById('pay-btn').style.display = 'none';
+              document.getElementById('validate-btn').style.display = 'block';
+            }
+
+            function verifyAccount() {
+              var statusBox = document.getElementById('verify-status');
+              statusBox.style.display = 'block';
+              statusBox.style.background = '#1e293b';
+              statusBox.style.color = '#38bdf8';
+              statusBox.innerHTML = '⏳ Simulating pre-flight account status check...';
+
+              setTimeout(function() {
+                var m = document.getElementById('method-selector').value;
+                var vpa = document.getElementById('upi-input').value;
+                if (m === 'upi' && (vpa.includes('invalid') || vpa === '')) {
+                  statusBox.style.background = '#450a0a';
+                  statusBox.style.color = '#f87171';
+                  statusBox.innerHTML = '❌ <b>Simulated VPA Check Failed:</b> VPA not registered. Please enter a valid UPI address.';
+                  document.getElementById('pay-btn').style.display = 'none';
+                } else {
+                  statusBox.style.background = '#064e3b';
+                  statusBox.style.color = '#34d399';
+                  statusBox.innerHTML = '✅ <b>Account Verified:</b> Active payment instrument confirmed. Ready for authorization.';
+                  document.getElementById('validate-btn').style.display = 'none';
+                  document.getElementById('pay-btn').style.display = 'block';
+                }
+              }, 500);
+            }
+
+            function openRazorpay() {
+              var options = {
+                "key": "rzp_test_TX2Aummpl8hEY7",
+                "amount": "249900",
+                "currency": "INR",
+                "name": "RecoverAI Checkout",
+                "description": "Order Recovery for txn_101",
+                "prefill": {
+                  "name": "Aarav Mehta",
+                  "email": "aarav@example.com",
+                  "contact": "9676265757"
+                },
+                "theme": { "color": "#2563eb" }
+              };
+              var rzp = new Razorpay(options);
+              rzp.open();
+            }
+          </script>
+        </body>
+        </html>
+        
