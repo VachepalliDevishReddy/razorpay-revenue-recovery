@@ -3,5 +3,6 @@ razorpay
 streamlit
 pandas
 python-dotenv
+requests
 uvicorn<0.34.0
 starlette<0.46.0
